@@ -1,9 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import loginService from 'services/login'
-
-const LoginForm = ({ setUser }) => {
+const LoginForm = ({ login, logout }) => {
   const [username, setUsername] = React.useState('')
   const [password, setPassword] = React.useState('')
 
@@ -11,10 +9,11 @@ const LoginForm = ({ setUser }) => {
     event.preventDefault()
 
     try {
-      const user = await loginService.login({ username, password })
-      setUser(user)
+      login({ username, password })
+      setUsername('')
+      setPassword('')
     } catch (exception) {
-      setUser(null)
+      logout()
       console.log('wrong credentials')
     }
   }
@@ -47,7 +46,8 @@ const LoginForm = ({ setUser }) => {
 }
 
 LoginForm.propTypes = {
-  setUser: PropTypes.func.isRequired,
+  login: PropTypes.func.isRequired,
+  logout: PropTypes.func.isRequired,
 }
 
 export default LoginForm
