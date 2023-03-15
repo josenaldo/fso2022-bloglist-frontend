@@ -1,26 +1,33 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import Blog from 'components/Blog'
 
-const BlogList = ({ blogs }) => {
+import BlogForm from 'components/BlogForm'
+import blogService from 'services/blogs'
+
+const BlogList = () => {
+  const [blogs, setBlogs] = React.useState([])
+
+  React.useEffect(() => {
+    const fetchBlogs = async () => {
+      const blogs = await blogService.getAll()
+      setBlogs(blogs)
+    }
+
+    fetchBlogs()
+  }, [])
+
+  const createBlog = async (blog) => {
+    const newBlog = await blogService.create(blog)
+    setBlogs(blogs.concat(newBlog))
+  }
+
   return (
     <div>
-      {blogs.map((blog) => (
-        <Blog key={blog.id} blog={blog} />
-      ))}
+      <BlogForm createBlog={createBlog} />
+
+      {blogs && blogs.map((blog) => <Blog key={blog.id} blog={blog} />)}
     </div>
   )
-}
-
-BlogList.propTypes = {
-  blogs: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      title: PropTypes.string.isRequired,
-      author: PropTypes.string.isRequired,
-      url: PropTypes.string.isRequired,
-    })
-  ).isRequired,
 }
 
 export default BlogList

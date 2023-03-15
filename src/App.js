@@ -9,17 +9,7 @@ import LoginForm from 'components/LoginForm'
 import './App.css'
 
 const App = () => {
-  const [blogs, setBlogs] = React.useState([])
   const [user, setUser] = React.useState(null)
-
-  React.useEffect(() => {
-    const fetchBlogs = async () => {
-      const blogs = await blogService.getAll()
-      setBlogs(blogs)
-    }
-
-    fetchBlogs()
-  }, [])
 
   React.useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem(
@@ -29,6 +19,10 @@ const App = () => {
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON)
       setUser(user)
+      blogService.setToken(user.token)
+    } else {
+      setUser(null)
+      blogService.setToken(null)
     }
   }, [])
 
@@ -42,8 +36,10 @@ const App = () => {
       )
 
       setUser(user)
+      blogService.setToken(user.token)
     } catch (exception) {
       setUser(null)
+      blogService.setToken(null)
       console.log('wrong credentials', exception)
     }
   }
@@ -74,7 +70,7 @@ const App = () => {
               Logout
             </a>
           </p>
-          <BlogList blogs={blogs} />
+          <BlogList />
         </div>
       )}
     </main>
