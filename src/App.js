@@ -5,11 +5,14 @@ import blogService from 'services/blogs'
 
 import BlogList from 'components/BlogList'
 import LoginForm from 'components/LoginForm'
+import Alert from 'components/Alert'
+import { ALERT_TYPE } from 'components/Alert'
 
 import './App.css'
 
 const App = () => {
   const [user, setUser] = React.useState(null)
+  const [message, setMessage] = React.useState()
 
   React.useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem(
@@ -40,7 +43,10 @@ const App = () => {
     } catch (exception) {
       setUser(null)
       blogService.setToken(null)
-      console.log('wrong credentials', exception)
+      setMessage({
+        type: ALERT_TYPE.ERROR,
+        content: 'Incorrect username or password. Please try again.',
+      })
     }
   }
 
@@ -51,6 +57,7 @@ const App = () => {
 
   return (
     <main className="container">
+      <Alert message={message} setMessage={setMessage} />
       {user === null ? (
         <div>
           <h1>Login</h1>
@@ -70,7 +77,7 @@ const App = () => {
               Logout
             </a>
           </p>
-          <BlogList />
+          <BlogList message={message} setMessage={setMessage} />
         </div>
       )}
     </main>

@@ -8,14 +8,9 @@ const LoginForm = ({ login, logout }) => {
   const handleLogin = async (event) => {
     event.preventDefault()
 
-    try {
-      login({ username, password })
-      setUsername('')
-      setPassword('')
-    } catch (exception) {
-      logout()
-      console.log('wrong credentials')
-    }
+    login({ username, password })
+    setUsername('')
+    setPassword('')
   }
 
   return (

@@ -1,10 +1,14 @@
 import React from 'react'
-import Blog from 'components/Blog'
+import PropTypes from 'prop-types'
 
-import BlogForm from 'components/BlogForm'
 import blogService from 'services/blogs'
 
-const BlogList = () => {
+import { ALERT_TYPE } from 'components/Alert'
+
+import Blog from 'components/Blog'
+import BlogForm from 'components/BlogForm'
+
+const BlogList = ({ message, setMessage }) => {
   const [blogs, setBlogs] = React.useState([])
 
   React.useEffect(() => {
@@ -17,8 +21,20 @@ const BlogList = () => {
   }, [])
 
   const createBlog = async (blog) => {
-    const newBlog = await blogService.create(blog)
-    setBlogs(blogs.concat(newBlog))
+    try {
+      const newBlog = await blogService.create(blog)
+      setBlogs(blogs.concat(newBlog))
+      setMessage({
+        type: ALERT_TYPE.SUCCESS,
+        content: `A new blog addes: '${blog.title} '`,
+      })
+    } catch (exception) {
+      setMessage({
+        type: ALERT_TYPE.ERROR,
+        content: 'Error creating blog. Please try again.',
+        details: exception.message,
+      })
+    }
   }
 
   return (
@@ -28,6 +44,14 @@ const BlogList = () => {
       {blogs && blogs.map((blog) => <Blog key={blog.id} blog={blog} />)}
     </div>
   )
+}
+
+BlogList.propTypes = {
+  message: PropTypes.shape({
+    type: PropTypes.oneOf(Object.values(ALERT_TYPE)).isRequired,
+    content: PropTypes.string.isRequired,
+  }),
+  setMessage: PropTypes.func.isRequired,
 }
 
 export default BlogList
