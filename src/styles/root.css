@@ -1,0 +1,37 @@
+/* Purple Dark scheme*/
+[data-theme='dark'] {
+  /* --primary: #7c4dff;
+  --primary-hover: #6a40e0;
+  --primary-focus: rgba(124, 77, 255, 0.25);
+  --primary-inverse: #fff; */
+
+  --primary: #b39ddb;
+  --primary-hover: #9e88cc;
+  --primary-focus: rgba(179, 157, 219, 0.25);
+  --primary-inverse: rgba(0, 0, 0, 0.75);
+
+  --secondary: #78909c;
+  --secondary-hover: #62727b;
+  --secondary-focus: rgba(120, 144, 156, 0.25);
+  --secondary-inverse: rgba(255, 255, 255, 0.75);
+
+  --success: #81c784;
+  --success-hover: #6fb374;
+  --success-focus: rgba(129, 199, 132, 0.25);
+  --success-inverse: rgba(0, 0, 0, 0.75);
+
+  --info: #64b5f6;
+  --info-hover: #52a7e7;
+  --info-focus: rgba(100, 181, 246, 0.25);
+  --info-inverse: rgba(0, 0, 0, 0.75);
+
+  --warning: #ffb74d;
+  --warning-hover: #ffa726;
+  --warning-focus: rgba(255, 183, 77, 0.25);
+  --warning-inverse: rgba(0, 0, 0, 0.75);
+
+  --danger: #ef9a9a;
+  --danger-hover: #e57373;
+  --danger-focus: rgba(239, 154, 154, 0.25);
+  --danger-inverse: rgba(0, 0, 0, 0.75);
+}

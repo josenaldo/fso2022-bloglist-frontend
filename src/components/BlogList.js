@@ -12,6 +12,7 @@ import Togglable from './Togglable'
 const BlogList = ({ setMessage }) => {
   const [blogs, setBlogs] = React.useState([])
   const blogFormRef = React.useRef()
+  const [loadingLike, setLoadingLike] = React.useState(false)
 
   React.useEffect(() => {
     const fetchBlogs = async () => {
@@ -39,12 +40,44 @@ const BlogList = ({ setMessage }) => {
     }
   }
 
+  const like = async (blog) => {
+    try {
+      setLoadingLike(true)
+      const likedBlog = await blogService.like(blog)
+      console.log('likedBlog', likedBlog)
+      const updatedBlogs = blogs.map((b) => {
+        return b.id === blog.id ? likedBlog : b
+      })
+
+      console.log('updatedBlogs', updatedBlogs)
+      setBlogs(updatedBlogs)
+      setLoadingLike(false)
+    } catch (exception) {
+      setMessage({
+        type: ALERT_TYPE.ERROR,
+        content: 'Error liking blog. Please try again.',
+        details: exception.message,
+      })
+      setLoadingLike(false)
+    }
+  }
+
   return (
     <div>
       <Togglable buttonLabel="New Blog" ref={blogFormRef}>
         <BlogForm createBlog={createBlog} />
       </Togglable>
-      {blogs && blogs.map((blog) => <Blog key={blog.id} blog={blog} />)}
+      {blogs &&
+        blogs.map((blog) => (
+          <Blog
+            key={blog.id}
+            blog={blog}
+            like={() => {
+              like(blog)
+            }}
+            loadingLike={loadingLike}
+          />
+        ))}
     </div>
   )
 }

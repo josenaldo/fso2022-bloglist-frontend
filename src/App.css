@@ -1,14 +1,8 @@
+@import url('./styles/root.css');
+@import url('./styles/links.css');
+@import url('./styles/buttons.css');
+
 main {
   margin-top: 60px;
 }
 
-button.small,
-[role='button'].small {
-  padding: 0.1em 0.5em;
-}
-
-button.inline,
-[role='button'].inline {
-  display: inline-block !important;
-  width: auto;
-}

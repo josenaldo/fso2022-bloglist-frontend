@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import './Blog.css'
 
-const Blog = ({ blog }) => {
+const Blog = ({ blog, like, loadingLike }) => {
   const [detailsVisible, setDetailsVisible] = React.useState(false)
   const buttonLabel = detailsVisible ? 'Hide' : 'View'
   const buttonStyle = detailsVisible ? 'secondary' : 'primary'
@@ -11,17 +11,30 @@ const Blog = ({ blog }) => {
     <article>
       <div className="header">
         <h2 className="title">{blog.title}</h2>
-        <div className="action-bar ">
-          {detailsVisible && <button className="inline small">Remove</button>}
-          {detailsVisible && <button className="inline small">Like</button>}
-          <button
-            className={`inline small ${buttonStyle}`}
-            onClick={() => {
-              setDetailsVisible(!detailsVisible)
-            }}
-          >
-            {buttonLabel}
-          </button>
+        <div>
+          <div className="action-bar ">
+            {detailsVisible && (
+              <button className="inline small danger">Remove</button>
+            )}
+
+            {detailsVisible && (
+              <button className="inline small" onClick={like}>
+                Like
+              </button>
+            )}
+
+            <button
+              className={`inline small ${buttonStyle}`}
+              onClick={() => {
+                setDetailsVisible(!detailsVisible)
+              }}
+            >
+              {buttonLabel}
+            </button>
+          </div>
+          <div className="progress-bar">
+            {loadingLike && <progress></progress>}
+          </div>
         </div>
       </div>
 
@@ -34,7 +47,12 @@ const Blog = ({ blog }) => {
               {blog.url}
             </a>
           </div>
-          <div className="likes">Likes: {blog.likes}</div>
+          <div className="likes">
+            Likes: {blog.likes}{' '}
+            {loadingLike && (
+              <span className="loading" aria-busy={loadingLike}></span>
+            )}
+          </div>
           <div>Added by: {blog.user.name}</div>
         </footer>
       )}
@@ -54,6 +72,8 @@ Blog.propTypes = {
       username: PropTypes.string.isRequired,
     }).isRequired,
   }).isRequired,
+  like: PropTypes.func.isRequired,
+  loadingLike: PropTypes.bool.isRequired,
 }
 
 export default Blog
