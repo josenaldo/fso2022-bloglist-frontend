@@ -9,7 +9,7 @@ import Blog from 'components/Blog'
 import BlogForm from 'components/BlogForm'
 import Togglable from './Togglable'
 
-const BlogList = ({ message, setMessage }) => {
+const BlogList = ({ setMessage }) => {
   const [blogs, setBlogs] = React.useState([])
   const blogFormRef = React.useRef()
 
@@ -50,10 +50,6 @@ const BlogList = ({ message, setMessage }) => {
 }
 
 BlogList.propTypes = {
-  message: PropTypes.shape({
-    type: PropTypes.oneOf(Object.values(ALERT_TYPE)).isRequired,
-    content: PropTypes.string.isRequired,
-  }),
   setMessage: PropTypes.func.isRequired,
 }
 

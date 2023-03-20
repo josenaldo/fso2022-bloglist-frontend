@@ -5,6 +5,7 @@ import blogService from 'services/blogs'
 
 import BlogList from 'components/BlogList'
 import LoginForm from 'components/LoginForm'
+import UserAppbar from 'components/UserAppbar'
 import Alert from 'components/Alert'
 import { ALERT_TYPE } from 'components/Alert'
 
@@ -57,27 +58,16 @@ const App = () => {
 
   return (
     <main className="container">
+      <h1>Blog list</h1>
+
       <Alert message={message} setMessage={setMessage} />
+
       {user === null ? (
-        <div>
-          <h1>Login</h1>
-          <LoginForm login={login} logout={logout} />
-        </div>
+        <LoginForm login={login} />
       ) : (
         <div>
-          <h1>Blog</h1>
-          <p>
-            Welcome {user.name}!{' '}
-            <a
-              href="#"
-              role="button"
-              className="outline small"
-              onClick={logout}
-            >
-              Logout
-            </a>
-          </p>
-          <BlogList message={message} setMessage={setMessage} />
+          <UserAppbar user={user} logout={logout} />
+          <BlogList setMessage={setMessage} />
         </div>
       )}
     </main>
