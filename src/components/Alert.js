@@ -9,12 +9,14 @@ const ALERT_TYPE = {
 }
 
 const Alert = ({ message, setMessage }) => {
+  const timeoutRef = React.useRef()
+
   React.useEffect(() => {
-    const timer = setTimeout(() => {
+    timeoutRef.current = setTimeout(() => {
       setMessage(null)
     }, 5000)
 
-    return () => clearTimeout(timer)
+    return () => clearTimeout(timeoutRef.current)
   }, [message])
 
   const closeAlert = () => {
