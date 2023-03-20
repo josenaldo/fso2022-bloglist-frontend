@@ -32,12 +32,10 @@ const Blog = ({ blog }) => {
             URL:{' '}
             <a href={blog.url} target="_blank" rel="noopener noreferrer">
               {blog.url}
-            </a>{' '}
+            </a>
           </div>
-          <div className="likes">
-            Likes: {blog.likes}{' '}
-            <button className="inline small secondary">Like</button>
-          </div>
+          <div className="likes">Likes: {blog.likes}</div>
+          <div>Added by: {blog.user.name}</div>
         </footer>
       )}
     </article>
@@ -50,6 +48,11 @@ Blog.propTypes = {
     author: PropTypes.string.isRequired,
     url: PropTypes.string.isRequired,
     likes: PropTypes.number.isRequired,
+    user: PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      id: PropTypes.string.isRequired,
+      username: PropTypes.string.isRequired,
+    }).isRequired,
   }).isRequired,
 }
 
