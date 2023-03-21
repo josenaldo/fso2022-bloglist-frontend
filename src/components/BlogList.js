@@ -68,6 +68,28 @@ const BlogList = ({ setMessage }) => {
     }
   }
 
+  const removeBlog = async (blog) => {
+    try {
+      await blogService.remove(blog)
+
+      const updatedBlogs = blogs.filter((b) => b.id !== blog.id)
+
+      setBlogs(sortBlogs(updatedBlogs))
+
+      setMessage({
+        type: ALERT_TYPE.SUCCESS,
+        content: `Blog '${blog.title}' removed.`,
+      })
+    } catch (error) {
+      const errorMessage = ErrorUtils.handleAxiosError(
+        error,
+        'Error removing blog. Please try again.'
+      )
+
+      setMessage(errorMessage)
+    }
+  }
+
   return (
     <div>
       <Togglable buttonLabel="New Blog" ref={blogFormRef}>
@@ -80,6 +102,9 @@ const BlogList = ({ setMessage }) => {
             blog={blog}
             like={async () => {
               return like(blog)
+            }}
+            remove={async () => {
+              return removeBlog(blog)
             }}
           />
         ))}

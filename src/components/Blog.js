@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import './Blog.css'
 
-const Blog = ({ blog, like }) => {
+const Blog = ({ blog, like, remove }) => {
   const [detailsVisible, setDetailsVisible] = React.useState(false)
   const buttonLabel = detailsVisible ? 'Hide' : 'View'
   const buttonStyle = detailsVisible ? 'secondary' : 'primary'
@@ -23,7 +23,9 @@ const Blog = ({ blog, like }) => {
         <div>
           <div className="action-bar ">
             {detailsVisible && (
-              <button className="inline small danger">Remove</button>
+              <button className="inline small danger" onClick={remove}>
+                Remove
+              </button>
             )}
 
             {detailsVisible && (
@@ -78,6 +80,7 @@ Blog.propTypes = {
     }).isRequired,
   }).isRequired,
   like: PropTypes.func.isRequired,
+  remove: PropTypes.func.isRequired,
 }
 
 export default Blog
