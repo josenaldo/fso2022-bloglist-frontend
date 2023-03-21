@@ -10,7 +10,7 @@ import Blog from 'components/Blog'
 import BlogForm from 'components/BlogForm'
 import Togglable from './Togglable'
 
-const BlogList = ({ setMessage }) => {
+const BlogList = ({ setMessage, user }) => {
   const [blogs, setBlogs] = React.useState([])
   const blogFormRef = React.useRef()
 
@@ -69,6 +69,12 @@ const BlogList = ({ setMessage }) => {
   }
 
   const removeBlog = async (blog) => {
+    const confirmRemove = confirm(`Remove blog '${blog.title}'?`)
+
+    if (!confirmRemove) {
+      return
+    }
+
     try {
       await blogService.remove(blog)
 
@@ -106,6 +112,7 @@ const BlogList = ({ setMessage }) => {
             remove={async () => {
               return removeBlog(blog)
             }}
+            user={user}
           />
         ))}
     </div>
@@ -114,6 +121,11 @@ const BlogList = ({ setMessage }) => {
 
 BlogList.propTypes = {
   setMessage: PropTypes.func.isRequired,
+  user: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    id: PropTypes.string.isRequired,
+    username: PropTypes.string.isRequired,
+  }),
 }
 
 export default BlogList

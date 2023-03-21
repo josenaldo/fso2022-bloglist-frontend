@@ -2,11 +2,13 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import './Blog.css'
 
-const Blog = ({ blog, like, remove }) => {
+const Blog = ({ blog, like, remove, user }) => {
   const [detailsVisible, setDetailsVisible] = React.useState(false)
   const buttonLabel = detailsVisible ? 'Hide' : 'View'
   const buttonStyle = detailsVisible ? 'secondary' : 'primary'
   const [loading, setLoading] = React.useState(false)
+
+  const isBlogOwner = blog.user.username === user.username
 
   const handleLike = async () => {
     setLoading(true)
@@ -22,7 +24,7 @@ const Blog = ({ blog, like, remove }) => {
         <h2 className="title">{blog.title}</h2>
         <div>
           <div className="action-bar ">
-            {detailsVisible && (
+            {detailsVisible && isBlogOwner && (
               <button className="inline small danger" onClick={remove}>
                 Remove
               </button>
@@ -81,6 +83,11 @@ Blog.propTypes = {
   }).isRequired,
   like: PropTypes.func.isRequired,
   remove: PropTypes.func.isRequired,
+  user: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    id: PropTypes.string.isRequired,
+    username: PropTypes.string.isRequired,
+  }),
 }
 
 export default Blog

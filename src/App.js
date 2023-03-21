@@ -67,7 +67,7 @@ const App = () => {
       ) : (
         <div>
           <UserAppbar user={user} logout={logout} />
-          <BlogList setMessage={setMessage} />
+          <BlogList setMessage={setMessage} user={user} />
         </div>
       )}
     </main>
