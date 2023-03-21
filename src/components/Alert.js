@@ -14,7 +14,7 @@ const Alert = ({ message, setMessage }) => {
   React.useEffect(() => {
     timeoutRef.current = setTimeout(() => {
       setMessage(null)
-    }, 5000)
+    }, 10000)
 
     return () => clearTimeout(timeoutRef.current)
   }, [message])
@@ -32,8 +32,21 @@ const Alert = ({ message, setMessage }) => {
       <span className="close-btn" onClick={closeAlert}>
         &times;
       </span>
-      <p>{message.content}</p>
-      {message.details && <p className="details">{message.details}</p>}
+      <p className="alert-title">{message.content}</p>
+      {message.details && <p>{message.details}</p>}
+      {message.error && (
+        <ul className="details">
+          {message.error.statusCode && (
+            <li>Status code: {message.error.statusCode}</li>
+          )}
+          {message.error.errorMessage && (
+            <li>Message Error: {message.error.errorMessage}</li>
+          )}
+          {message.error.errorDetails && (
+            <li>Details: {message.error.errorDetails}</li>
+          )}
+        </ul>
+      )}
     </div>
   )
 }
@@ -43,6 +56,7 @@ Alert.propTypes = {
     type: PropTypes.oneOf(Object.values(ALERT_TYPE)).isRequired,
     content: PropTypes.string.isRequired,
     details: PropTypes.string,
+    error: PropTypes.object,
   }),
   setMessage: PropTypes.func.isRequired,
 }

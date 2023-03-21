@@ -29,8 +29,9 @@
   transform: scale(0.9) !important;
 }
 
-.alert-success {
-  background-color: #e8f5e9;
+.alert-title {
+  font-weight: bold;
+  font-size: 1.2rem;
 }
 
 .alert p {
@@ -42,16 +43,20 @@
   margin-top: 0.5rem;
 }
 
+.alert-success {
+  background-color: var(--success-background);
+}
 .alert-success p,
-.alert-success span {
-  color: #4caf50 !important;
+.alert-success span,
+.alert-success li {
+  color: var(--success-text) !important;
 }
 
 .alert-error {
-  background-color: #ffebee;
+  background-color: var(--danger-background);
 }
-
 .alert-error p,
-.alert-error span {
-  color: #f44336 !important;
+.alert-error span,
+.alert-error li {
+  color: var(--danger-text) !important;
 }

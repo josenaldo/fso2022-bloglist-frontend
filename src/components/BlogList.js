@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import blogService from 'services/blogs'
 
 import { ALERT_TYPE } from 'components/Alert'
+import ErrorUtils from 'utils/ErrorUtils'
 
 import Blog from 'components/Blog'
 import BlogForm from 'components/BlogForm'
@@ -12,12 +13,15 @@ import Togglable from './Togglable'
 const BlogList = ({ setMessage }) => {
   const [blogs, setBlogs] = React.useState([])
   const blogFormRef = React.useRef()
-  const [loadingLike, setLoadingLike] = React.useState(false)
+
+  const sortBlogs = (blogs) => {
+    return blogs.sort((a, b) => b.likes - a.likes)
+  }
 
   React.useEffect(() => {
     const fetchBlogs = async () => {
       const blogs = await blogService.getAll()
-      setBlogs(blogs)
+      setBlogs(sortBlogs(blogs))
     }
 
     fetchBlogs()
@@ -26,39 +30,41 @@ const BlogList = ({ setMessage }) => {
   const createBlog = async (blog) => {
     try {
       const newBlog = await blogService.create(blog)
-      setBlogs(blogs.concat(newBlog))
+
+      const newBlogList = [...blogs, newBlog]
+
+      setBlogs(sortBlogs(newBlogList))
+
       setMessage({
         type: ALERT_TYPE.SUCCESS,
-        content: `A new blog addes: '${blog.title} '`,
+        content: `A new blog added: '${blog.title}'`,
       })
-    } catch (exception) {
-      setMessage({
-        type: ALERT_TYPE.ERROR,
-        content: 'Error creating blog. Please try again.',
-        details: exception.message,
-      })
+    } catch (error) {
+      const errorMessage = ErrorUtils.handleAxiosError(
+        error,
+        'Error creating blog. Please try again.'
+      )
+
+      setMessage(errorMessage)
     }
   }
 
   const like = async (blog) => {
     try {
-      setLoadingLike(true)
       const likedBlog = await blogService.like(blog)
-      console.log('likedBlog', likedBlog)
+
       const updatedBlogs = blogs.map((b) => {
         return b.id === blog.id ? likedBlog : b
       })
 
-      console.log('updatedBlogs', updatedBlogs)
-      setBlogs(updatedBlogs)
-      setLoadingLike(false)
-    } catch (exception) {
-      setMessage({
-        type: ALERT_TYPE.ERROR,
-        content: 'Error liking blog. Please try again.',
-        details: exception.message,
-      })
-      setLoadingLike(false)
+      setBlogs(sortBlogs(updatedBlogs))
+    } catch (error) {
+      const errorMessage = ErrorUtils.handleAxiosError(
+        error,
+        'Error liking blog. Please try again.'
+      )
+
+      setMessage(errorMessage)
     }
   }
 
@@ -72,10 +78,9 @@ const BlogList = ({ setMessage }) => {
           <Blog
             key={blog.id}
             blog={blog}
-            like={() => {
-              like(blog)
+            like={async () => {
+              return like(blog)
             }}
-            loadingLike={loadingLike}
           />
         ))}
     </div>
