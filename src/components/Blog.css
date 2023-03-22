@@ -21,6 +21,11 @@
   margin: 0;
 }
 
+.author {
+  font-size: 0.8rem;
+  color: var(--secondary);
+}
+
 .content {
   display: flex;
   flex-direction: column;

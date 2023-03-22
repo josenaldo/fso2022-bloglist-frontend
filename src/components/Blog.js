@@ -8,6 +8,12 @@ const Blog = ({ blog, like, remove, user }) => {
   const buttonStyle = detailsVisible ? 'secondary' : 'primary'
   const [loading, setLoading] = React.useState(false)
 
+  // print the JSON objects to the console to see what's going on
+  console.log('🟢blog', blog)
+
+  // printtt the user object to the console to see what's going on
+  console.log('🔴user', user)
+
   const isBlogOwner = blog.user.username === user.username
 
   const handleLike = async () => {
@@ -19,9 +25,12 @@ const Blog = ({ blog, like, remove, user }) => {
   }
 
   return (
-    <article>
+    <article className="blog">
       <div className="header">
-        <h2 className="title">{blog.title}</h2>
+        <div>
+          <h2 className="title">{blog.title}</h2>
+          <div className="author">{blog.author}</div>
+        </div>
         <div>
           <div className="action-bar ">
             {detailsVisible && isBlogOwner && (
@@ -51,7 +60,6 @@ const Blog = ({ blog, like, remove, user }) => {
 
       {detailsVisible && (
         <footer className="content">
-          <div>Author: {blog.author}</div>
           <div>
             URL:{' '}
             <a href={blog.url} target="_blank" rel="noopener noreferrer">
