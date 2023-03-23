@@ -77,4 +77,39 @@ describe('Blog', () => {
     expect(likeButton).toBeInTheDocument()
     expect(removeButton).toBeInTheDocument()
   })
+
+  test('call like twice when like button is clicked twice', async () => {
+    const mockHandler = jest.fn()
+
+    const { container } = render(
+      <Blog blog={testBlog[0]} user={testUser} like={mockHandler} />
+    )
+
+    const button = container.querySelector('.view-button')
+    const user = userEvent.setup()
+    await user.click(button)
+
+    const likeButton = container.querySelector('.like-button')
+    await user.click(likeButton)
+    await user.click(likeButton)
+
+    expect(mockHandler.mock.calls).toHaveLength(2)
+  })
+
+  test('call when remove button is clicked', async () => {
+    const mockHandler = jest.fn()
+
+    const { container } = render(
+      <Blog blog={testBlog[0]} user={testUser} remove={mockHandler} />
+    )
+
+    const button = container.querySelector('.view-button')
+    const user = userEvent.setup()
+    await user.click(button)
+
+    const removeButton = container.querySelector('.remove-button')
+    await user.click(removeButton)
+
+    expect(mockHandler.mock.calls).toHaveLength(1)
+  })
 })
