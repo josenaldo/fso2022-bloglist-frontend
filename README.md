@@ -195,6 +195,10 @@ This project uses the following technologies:
 - Github: [@josenaldo](https://github.com/josenaldo)
 - LinkedIn: [@josenaldo](https://linkedin.com/in/josenaldo)
 
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
 ## Show your support
 
 Give a ⭐️ if this project helped you!
