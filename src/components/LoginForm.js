@@ -23,6 +23,7 @@ const LoginForm = ({ login }) => {
             <label>
               Username
               <input
+                id="username"
                 type="text"
                 value={username}
                 name="Username"
@@ -32,6 +33,7 @@ const LoginForm = ({ login }) => {
             <label>
               Password
               <input
+                id="password"
                 type="password"
                 value={password}
                 name="Password"
@@ -39,7 +41,9 @@ const LoginForm = ({ login }) => {
               />
             </label>
           </div>
-          <button type="submit">Login</button>
+          <button id="login-button" type="submit">
+            Login
+          </button>
         </form>
       </Togglable>
     </div>

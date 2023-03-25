@@ -152,6 +152,10 @@ Let's add an npm script to the backend which starts it in test mode, or so that 
 "start:test": "cross-env NODE_ENV=test node index.js"
 ```
 
+In backend, create a testing controller, in backend. This controller only exists in test mode. Its purpose is to reset the database.
+
+In app.js, add testing controller to the middleware stack if NODE_ENV is test.
+
 Then, start bothe backend and frontend.
 
 Backend:
@@ -163,7 +167,7 @@ Backend:
 Frontend:
 
   ```sh
-  yarn dev
+  yarn start
   ```
 
 When both the frontend and the backend are running, we can run the Cypress tests.
@@ -173,14 +177,16 @@ yarn cypress:open
 ```
 
 1. Cypress asks what type of tests we are doing. Let us answer "E2E Testing":
-2. Next a browser is selected (e.g. Chrome) and then we click "Create new spec":
-3. Let us create the test file cypress/e2e/note_app.cy.js:
-4. We could edit the tests in Cypress but let us rather use VS Code:
-5. We can now close the edit view of Cypress.
+2. Continue with "Continue":
+3. Next a browser is selected (e.g. Chrome) and start testing in Chrome
+4. In the open windows, click "Create new spec":
+5. Let us create the test file cypress/e2e/blog_list_app.cy.js:
+6. We could edit the tests in Cypress but let us rather use VS Code:
+7. The tests are executed automatically when the file is saved.
+8. In the Cypress Browser window, open the chrome console and see the output of the tests.
 
 ### Writing Cypress Tests
 
 ## Reseting database
 
 Create a testing controller, in backend. This controller only exists in test mode.
-
