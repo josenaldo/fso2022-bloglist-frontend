@@ -112,6 +112,16 @@ describe('Blog app', () => {
 
         cy.contains('Likes: 1')
       })
+
+      it('A blog can be deleted', () => {
+        cy.contains('Test blog').parentsUntil('.blog').as('blog')
+
+        cy.get('@blog').find('.view-button').click()
+
+        cy.get('@blog').find('.remove-button').click()
+
+        cy.get('.blog').should('not.exist')
+      })
     })
   })
 })
