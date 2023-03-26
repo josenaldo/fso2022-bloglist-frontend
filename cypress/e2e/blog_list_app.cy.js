@@ -166,5 +166,52 @@ describe('Blog app', () => {
         cy.get('@blog').find('.remove-button').should('not.exist')
       })
     })
+
+    describe('and multiple blogs exist', () => {
+      beforeEach(function () {
+        cy.createBlog({
+          title: 'Test blog 0',
+          url: 'http://test0.com',
+          author: 'Test author 0',
+        })
+
+        cy.createBlog({
+          title: 'Test blog 1',
+          url: 'http://test1.com',
+          author: 'Test author 1',
+        })
+
+        cy.createBlog({
+          title: 'Test blog 2',
+          url: 'http://test2.com',
+          author: 'Test author 2',
+        })
+      })
+
+      it('Blogs are ordered by likes', () => {
+        cy.get('.blog').then((blogs) => {
+          cy.wrap(blogs[0]).as('blog0')
+          cy.get('@blog0').find('.view-button').click()
+          cy.get('@blog0').find('.like-button').click()
+          cy.get('@blog0').find('.like-button').click()
+
+          cy.wrap(blogs[1]).as('blog1')
+          cy.get('@blog1').find('.view-button').click()
+          cy.get('@blog1').find('.like-button').click()
+          cy.get('@blog1').find('.like-button').click()
+          cy.get('@blog1').find('.like-button').click()
+
+          cy.wrap(blogs[2]).as('blog2')
+          cy.get('@blog2').find('.view-button').click()
+          cy.get('@blog2').find('.like-button').click()
+        })
+
+        cy.get('.blog').then((blogs) => {
+          cy.wrap(blogs[0]).contains('Test blog 1')
+          cy.wrap(blogs[1]).contains('Test blog 0')
+          cy.wrap(blogs[2]).contains('Test blog 2')
+        })
+      })
+    })
   })
 })
