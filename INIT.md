@@ -187,6 +187,27 @@ yarn cypress:open
 
 ### Writing Cypress Tests
 
-## Reseting database
+#### Configure Cypress
+
+In the cypress.config.js file, add the following:
+
+```js
+baseUrl: 'http://localhost:3004',
+env: {
+  BACKEND: 'http://localhost:3003',
+},
+```
+
+This will set the base URL for the tests and the backend URL.
+
+#### Reseting database
+
+Before each test, we need to reset the database. We can do this by calling the testing controller in the backend.
 
 Create a testing controller, in backend. This controller only exists in test mode.
+
+execute The backend and the frontend. Then, run cypress.
+
+Write tests for the blog list app.
+
+If necessary, create custom commands for Cypress.
