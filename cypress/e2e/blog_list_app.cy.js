@@ -82,5 +82,36 @@ describe('Blog app', () => {
       cy.get('.blog').contains('Test blog')
       cy.contains('Test author')
     })
+
+    describe('and a blog exists', () => {
+      beforeEach(function () {
+        cy.createBlog({
+          title: 'Test blog',
+          url: 'http://test.com',
+          author: 'Test author',
+        })
+      })
+
+      it('A blog detail cam be viewed', () => {
+        cy.contains('Test blog')
+          .parentsUntil('.blog')
+          .find('.view-button')
+          .click()
+        cy.contains('Test author')
+        cy.contains('URL: http://test.com')
+        cy.contains('Likes: 0')
+        cy.contains('Added by: Test User')
+      })
+
+      it('A blog can be liked', () => {
+        cy.contains('Test blog').parentsUntil('.blog').as('blog')
+
+        cy.get('@blog').find('.view-button').click()
+
+        cy.get('@blog').find('.like-button').click()
+
+        cy.contains('Likes: 1')
+      })
+    })
   })
 })
