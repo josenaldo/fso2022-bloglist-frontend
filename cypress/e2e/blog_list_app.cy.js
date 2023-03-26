@@ -12,10 +12,10 @@ const anotherUser = {
 
 describe('Blog app', () => {
   beforeEach(function () {
-    cy.request('POST', `${Cypress.env('BACKEND')}/api/testing/reset`)
+    cy.resetDatabase()
 
-    cy.request('POST', `${Cypress.env('BACKEND')}/api/users`, testUser)
-    cy.request('POST', `${Cypress.env('BACKEND')}/api/users`, anotherUser)
+    cy.addUser(testUser)
+    cy.addUser(anotherUser)
 
     cy.visit('/')
   })
