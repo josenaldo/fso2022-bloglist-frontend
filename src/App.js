@@ -8,6 +8,7 @@ import LoginForm from 'components/LoginForm'
 import UserAppbar from 'components/UserAppbar'
 import Alert from 'components/Alert'
 import { ALERT_TYPE } from 'components/Alert'
+import { LOGGED_USER_KEY } from 'config'
 
 import './App.css'
 
@@ -16,9 +17,7 @@ const App = () => {
   const [message, setMessage] = React.useState()
 
   React.useEffect(() => {
-    const loggedUserJSON = window.localStorage.getItem(
-      loginService.LOGGED_USER_KEY
-    )
+    const loggedUserJSON = window.localStorage.getItem(LOGGED_USER_KEY)
 
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON)
@@ -34,10 +33,7 @@ const App = () => {
     try {
       const user = await loginService.login({ username, password })
 
-      window.localStorage.setItem(
-        loginService.LOGGED_USER_KEY,
-        JSON.stringify(user)
-      )
+      window.localStorage.setItem(LOGGED_USER_KEY, JSON.stringify(user))
 
       setUser(user)
       blogService.setToken(user.token)
@@ -53,7 +49,7 @@ const App = () => {
 
   const logout = () => {
     setUser(null)
-    window.localStorage.removeItem(loginService.LOGGED_USER_KEY)
+    window.localStorage.removeItem(LOGGED_USER_KEY)
   }
 
   return (

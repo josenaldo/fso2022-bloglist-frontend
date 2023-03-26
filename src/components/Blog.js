@@ -95,7 +95,7 @@ Blog.propTypes = {
   remove: PropTypes.func.isRequired,
   user: PropTypes.shape({
     name: PropTypes.string.isRequired,
-    id: PropTypes.string.isRequired,
+    token: PropTypes.string.isRequired,
     username: PropTypes.string.isRequired,
   }),
 }

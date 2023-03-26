@@ -5,6 +5,7 @@ module.exports = defineConfig({
     baseUrl: 'http://localhost:3004',
     env: {
       BACKEND: 'http://localhost:3003',
+      LOGGED_USER_KEY: 'loggedBlogListAppUser',
     },
   },
 })

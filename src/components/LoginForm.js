@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Togglable from './Togglable'
-// import Togglable from './Togglable'
 
 const LoginForm = ({ login }) => {
   const [username, setUsername] = React.useState('')

@@ -98,7 +98,7 @@ const BlogList = ({ setMessage, user }) => {
 
   return (
     <div>
-      <Togglable buttonLabel="New Blog" ref={blogFormRef}>
+      <Togglable buttonLabel="New blog" ref={blogFormRef}>
         <BlogForm createBlog={createBlog} />
       </Togglable>
       {blogs &&
@@ -122,8 +122,8 @@ const BlogList = ({ setMessage, user }) => {
 BlogList.propTypes = {
   setMessage: PropTypes.func.isRequired,
   user: PropTypes.shape({
+    token: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
-    id: PropTypes.string.isRequired,
     username: PropTypes.string.isRequired,
   }),
 }
