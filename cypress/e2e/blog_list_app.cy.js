@@ -4,11 +4,18 @@ const testUser = {
   password: 'sekret',
 }
 
+const anotherUser = {
+  name: 'Another User',
+  username: 'anotheruser',
+  password: 'anotherpassword',
+}
+
 describe('Blog app', () => {
   beforeEach(function () {
     cy.request('POST', `${Cypress.env('BACKEND')}/api/testing/reset`)
 
     cy.request('POST', `${Cypress.env('BACKEND')}/api/users`, testUser)
+    cy.request('POST', `${Cypress.env('BACKEND')}/api/users`, anotherUser)
 
     cy.visit('/')
   })
@@ -113,6 +120,23 @@ describe('Blog app', () => {
         cy.contains('Likes: 1')
       })
 
+      it('A blog can be liked by another user', () => {
+        cy.contains('Logout').click()
+
+        cy.login({
+          username: anotherUser.username,
+          password: anotherUser.password,
+        })
+
+        cy.contains('Test blog').parentsUntil('.blog').as('blog')
+
+        cy.get('@blog').find('.view-button').click()
+
+        cy.get('@blog').find('.like-button').click()
+
+        cy.contains('Likes: 1')
+      })
+
       it('A blog can be deleted', () => {
         cy.contains('Test blog').parentsUntil('.blog').as('blog')
 
@@ -121,6 +145,25 @@ describe('Blog app', () => {
         cy.get('@blog').find('.remove-button').click()
 
         cy.get('.blog').should('not.exist')
+      })
+
+      it('A blog can not be deleted by another user', () => {
+        cy.contains('Test blog').parentsUntil('.blog').as('blog')
+
+        cy.get('@blog').find('.view-button').click()
+
+        cy.get('@blog').find('.remove-button')
+
+        cy.contains('Logout').click()
+
+        cy.login({
+          username: anotherUser.username,
+          password: anotherUser.password,
+        })
+
+        cy.get('@blog').find('.view-button').click()
+
+        cy.get('@blog').find('.remove-button').should('not.exist')
       })
     })
   })
